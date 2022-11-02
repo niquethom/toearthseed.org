@@ -10,9 +10,12 @@
   <meta property="og:title" content="To Earth Seed">
   <meta property="og:image" content="assets/toearthseed.png">
   <meta property="og:description" content="To Earth Seed Project from Dominique Thomas.">
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css" integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js" integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""></script>
+
   <style>
     html, body {
-      width: 100vw;
       font-size: 1.2em;
     }
     header {
@@ -23,7 +26,19 @@
       width: 800px;
       margin: 0 auto;
     }
+    .map {
+      height: 180px;
+    }
   </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      var blackSpacesMap = L.map('blackspaces').setView([0, 0], 1);
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 2,
+      }).addTo(blackSpacesMap);
+
+    });
+  </script>
 </head>
 <body>
   <header>
@@ -88,6 +103,7 @@
       It was a movement that <a href="https://www.gsd.harvard.edu/2021/02/black-harlem-the-african-american-design-nexuss-harlem-storymap-traces-the-neighborhoods-black-designed-places/">highlighted the experiences of Black people such as women, immigrants and LGBTQIA+ people</a>. Although in Harlem, it was a national movement that had connections to international Black Diasporic cultural spaces and communities. Harlem has always been a point of connection and inspiration for those across the African Diaspora. It has been a link and chain to other Black spaces that were rich with Black life. Harlem has always been a point of connection and inspiration for those across the African Diaspora. It has been a link and chain to other Black spaces where people engaged in the development of a new Black identity and consciousness.
     </p>
 
+    <div class="map" id="blackspaces"></div>
 
   </section>
 </body>
