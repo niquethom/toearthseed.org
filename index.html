@@ -28,6 +28,17 @@
       margin: 0;
       color: rgb(80, 36, 144);
     }
+    nav {
+      position: fixed;
+      background-color: rgb(127, 87, 159);
+      padding: 10px;
+    }
+    nav li {
+      color: #fff;
+    }
+    nav li a {
+      background-color: transparent;
+    }
     a {
       color: rgb(252, 250, 255);
       background-color: rgb(80, 38, 115);
@@ -55,6 +66,32 @@
     .map {
       height: 220px;
     }
+    @media (max-width: 1200px) {
+      nav {
+        top: 0px;
+        box-shadow: 0 0 10px;
+        width: 100%;
+      }
+      nav ol {
+        width: 800px;
+        margin: 0 auto;
+      }
+      nav li {
+        display: inline;
+        margin: 0 auto;
+      }
+
+    }
+    @media (max-width: 800px) {
+      nav ol  {
+        width: auto;
+      }
+      section {
+        width: auto;
+        padding: 40px;
+      }
+    }
+
   </style>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -178,7 +215,17 @@
 <body>
   <header>
   </header>
-  <section>
+  <nav>
+    <ol>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#who">Who</a></li>
+      <li><a href="#sankofa">Sankofa</a></li>
+      <li><a href="#maps">Maps</a></li>
+      <li><a href="#walking-tour">Walking Tour</a></li>
+      <li><a href="#future">Future</a></li>
+    </ol>
+  </nav>
+  <section id="home">
     <p>
       In this portal, time is not linear. We are experiencing the past, present and future at the same time. Do you feel it all around you?
     </p>
@@ -192,13 +239,13 @@
       Pathways to earthseed is imaginary, speculative and rooted in the visions of many. It is a portal that connects you to the past, present and future at the same time.
     </p>
   </section>
-  <section>
+  <section id="who">
     <h2>Who’s that girl?</h2>
     <p>
       Hi, I am Dominique and I am the steward of this portal. I am an Afrofuturist organizer, busy-body trainer, scientist and artist. I view climate justice as integral to liberation. I would say my biggest joy is centered in Black liberation to create the material conditions for communities to build power with one another through principled practice and strategize to dismantle systems of oppression. <a href="mailto:nique.thom@gmail.com">Hit me up!</a>
     </p>
   </section>
-  <section>
+  <section id="sankofa">
     <h2>Harlem’s Sankofa</h2>
     <blockquote>
       "go back to the past and bring forward that which is useful."
@@ -272,7 +319,7 @@
       This link in the portal shows us the current areas in Harlem that are currently at risk and those that have an ongoing risk of gentrification. Overlaid on this are the number of public housing projects currently located in Harlem. You can see that Harlem has one of the largest concentrations of public housing compared to any other neighborhood in Manhattan. <a href="https://www.urbandisplacement.org/maps/new-york-gentrification-and-displacement/">Go explore this link and ensure you bring this knowledge back on your journey.</a>
     </p>
   </section>
-  <section>
+  <section id="maps">
     <h2>Maps</h2>
     <h3>UNDER CONSTRUCTION</h3>
     <p>
@@ -290,7 +337,7 @@
       <b>[Insert Here Critique of the Data]</b>
     </p>
   </section>
-  <section>
+  <section id="walking-tour">
     <h2>Walking Tour</h2>
     <div class="map" id="walkingTour"></div>
 
@@ -436,7 +483,7 @@
       At the end of our tour is East Harlem, also known as El Barrio. This neighborhood is also one of the hottest areas in Harlem. Heat in New York is not distributed equally, which is often based on income, race and access to certain types of housing. Increased heat in this neighborhood leads to a number of health complications, such as vulnerability to illnesses. The high heat index further increases death in the elderly and young. What can be done to reduce heat in this community?
     </p>
   </section>
-  <section>
+  <section id="future">
     <h2>An Afrofurist Harlem</h2>
     <h3>UNDER CONSTRUCTION</h3>
     <p>
