@@ -40,9 +40,9 @@
       background-color: rgb(127, 87, 159);
 
     }
-    .map a, .map a:hover {
+    .leaflet-control-attribution a, .leaflet-control-attribution a:hover {
       color: #000;
-      background-color: transparent;
+      background-color: inherit;
     }
     header {
       height: 40vh;
@@ -53,16 +53,125 @@
       margin: 0 auto;
     }
     .map {
-      height: 180px;
+      height: 220px;
     }
   </style>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      var blackSpacesMap = L.map('blackspaces').setView([0, 0], 1);
-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 2,
-      }).addTo(blackSpacesMap);
+      const walkingTourStopsGeoJSON = {
+        "type": "FeatureCollection",
+        "features": [
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates":  [ -73.9542061,40.8269691 ]
+            },
+            "properties": {
+            "Location":"North River Wastewater Treatment Plant (Hudson River Greenway, New York, NY 10031"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates":  [ -73.9375295,40.8225793 ]
+            },
+            "properties": {
+            "Location":"Mother Clara Hale Bus Depot (721 Malcolm X Blvd, New York, NY 10039)"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates":  [ -73.943749,40.817848 ]
+            },
+            "properties": {
+            "Location":"Striver’s Row (W 138th and W 139th Street, New York, NY 10030)"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates":  [ -73.9415561,40.8166821 ]
+            },
+            "properties": {
+            "Location":"Abyssinian Baptist Church (132 W 138th St, New York, NY 10030)"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates":  [ -73.942312,40.8122298 ]
+            },
+            "properties": {
+            "Location":"Lafayette Theater (Corner of W 132nd and Malcolm X Blvd.)"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates":  [ -73.950056,40.810018 ]
+            },
+            "properties": {
+            "Location":"Apollo Theater (253 W 125th St, New York, NY 10027)"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates":  [ -73.9530889,40.8109791 ]
+            },
+            "properties": {
+            "Location":"125th and Consumerism (W 125th Street)"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates":  [ -73.9442166,40.8096347 ]
+            },
+            "properties": {
+            "Location":"Asthma Central (W 123rd between Adam Clayton Powell and Malcolm X Blvd.)"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates":  [ -73.956822,40.8050482 ]
+            },
+            "properties": {
+            "Location":"East Harlem (W 116th and the surrounding areas)"
+            }
+          }
+        ]
+      }
+      const tiles = 'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png';
+      // more options for tile layers at https://leaflet-extras.github.io/leaflet-providers/preview/
+      const blackSpacesMap = L.map('blackspaces').setView([0, 0], 1);
+      const harlemToday = L.map('harlemToday').setView([40.81, -73.95], 13);
+      const harlem1940 = L.map('harlem1940').setView([40.81, -73.95], 13);
+      const walkingTour = L.map('walkingTour').setView([40.819, -73.95], 13);
 
+      L.tileLayer(tiles).addTo(blackSpacesMap);
+      L.tileLayer(tiles).addTo(harlem1940);
+      L.tileLayer(tiles).addTo(harlemToday);
+      L.tileLayer(tiles).addTo(walkingTour);
+
+      L.geoJSON(walkingTourStopsGeoJSON, {
+        onEachFeature: (feature, layer) => {
+          if (feature.properties && feature.properties.Location) {
+            layer.bindPopup(feature.properties.Location);
+          }
+        }
+      }).addTo(walkingTour)
     });
   </script>
 </head>
@@ -144,7 +253,241 @@
     </p>
     <p>
       <a href="https://www.npr.org/2017/05/03/526655831/a-forgotten-history-of-how-the-u-s-government-segregated-america">Redlining</a> is the practice of withholding services to potential customers who live in neighborhoods that have been classified as “hazardous” to investment. Because many of these communities have historically been Black and other people of color, these communities were severely divested from when it came to economic vitality. Combined with the lasting effects of slavery and Jim Crow, many Black people had no generational wealth and those that did were terroized and murdered. There was no process to make a people whole. To make matters worse, <a href="https://seas.umich.edu/news/redlining-and-environmental-racism">environmental racism boomed</a> using areas deemed as “hazardous” to build the industrial sector which is responsible for negative health impacts.
-      </p>
+    </p>
+
+    <h3>Harlem 1940</h3>
+    <div class="map" id="harlem1940"></div>
+    <p>
+      Figure XX. <a href="https://dsl.richmond.edu/panorama/redlining/#loc=13/40.815/-73.953">In this map you can see Harlem during the 1940</a>. The majority of the neighborhood was deemed hazardous. You can also see that the population at the time was roughly 16% Black.
+    </p>
+    <p>
+      On the flip side, since the early 2000s Harlem has been experiencing a sharp decline in its Black population during gentrification. <a href="https://docs.google.com/spreadsheets/d/1-popILAspTD16C3QTq-EHsgwIdJ4SW7Z6ZSKsTCedC4/edit#gid=0">Gentrification</a> is the process where lower income people are pushed out of a neighborhood and replaced by wealthier people due to the neighborhood being “invested in and revitalized”. In Harlem, Black people are being pushed out by the extremely high rent and replaced by white people.
+    </p>
+    <h3>Harlem Today</h3>
+    <div class="map" id="harlemToday"></div>
+    <p>
+      Source: ChappleChapple, K., & Thomas, T., and Zuk, M. (2021). Urban Displacement Project website. Berkeley, CA: Urban Displacement Project., K., & Thomas, T., and Zuk, M. (2021). Urban Displacement Project website. Berkeley, CA: Urban Displacement Project.
+    </p>
+    <p>
+      This link in the portal shows us the current areas in Harlem that are currently at risk and those that have an ongoing risk of gentrification. Overlaid on this are the number of public housing projects currently located in Harlem. You can see that Harlem has one of the largest concentrations of public housing compared to any other neighborhood in Manhattan. <a href="https://www.urbandisplacement.org/maps/new-york-gentrification-and-displacement/">Go explore this link and ensure you bring this knowledge back on your journey.</a>
+    </p>
+  </section>
+  <section>
+    <h2>Maps</h2>
+    <h3>UNDER CONSTRUCTION</h3>
+    <p>
+      The maps section that will be pulled from the datasets are currently not ready. I will write up these sections as I have the final products. It looks like there will be approximately 6-8 maps. Below I will list out the maps I am currently thinking about:
+    </p>
+    <ul>
+      <li><a href="https://news.climate.columbia.edu/2016/06/06/air-quality-pollution-new-york-city/">Air quality</a>: This map will show the air quality in Harlem. This will be laid on top of maps of where communities have been redlined and public housing to show the effects.</li>
+      <li>Road pollution: This will show pollution from the major highways and roads in Harlem </li>
+      <li>Flooding: This will show the history of flooding in the Harlem as well as projections into the future</li>
+      <li>Heat impacts: This will show the relative tree canopy in Harlem along with the heat of the surface level in Harlem </li>
+      <li>Waste pollution: This will show the relative amount of waste in Harlem and how that related to the other climate issues. </li>
+      <li>Health impacts: This will show how the health impacts of Harlem based on climate impacts and redlining and structural racism </li>
+    </ul>
+    <p>
+      <b>[Insert Here Critique of the Data]</b>
+    </p>
+  </section>
+  <section>
+    <h2>Walking Tour</h2>
+    <div class="map" id="walkingTour"></div>
+
+    <h3>How to listen</h3>
+
+    <p>Thank you for joining me for this audio walking tour exploring Harlem through the lens of climate justice, Afrofuturism, Black feminist ecological thought and abolition. </p>
+    <p>To begin the tour, click on the first thumbnail photo in the image gallery below that is labeled “Pathways to Earthseed”. </p>
+    <p>Once you enter the tour, you will be introduced to your resident Afrofuturist, Dominique Thomas. </p>
+    <ol>
+      <li>You can play each stop’s audio track that will show up in your browser. There is also a transcript of each of the audio tracks that you will find. </li>
+      <li>You can navigate between the different stops on the tour by tapping next on your screen or by clicking on the different thumbnails. </li>
+      <li>A link to the Google Map is here or you can download this PDF for a printable map of the tour. </li>
+    </ol>
+
+    <h3>Pathways to Earthseed Walking Tour</h3>
+
+    <h4>1) Introduction </h4>
+
+    <h5>Guidance</h5>
+    <p>
+      Welcome to the Pathways to Earthseed audio walking tour. Join Dominique as she takes you on a journey through the complexities of Harlem. When you wish to continue to the next stop, locate North River Wastewater treatment plant on the google map and/or on the printable PDF.
+    </p>
+
+    <h5>Transcript</h5>
+
+    <p>
+      Hey! My name is Dominique. I am a community organizer and Afrofurist. I love being able to connect with my physical environment and nature. Walking for me is a time to connect to the past, present and future. It gives us the time to interrogate our surroundings and think about our impact on our community.
+    </p>
+    <p>
+      This walk will take you through Harlem and will explore the past, what we see in the present and what we can imagine for the future. As you embark on this tour, I want you to think about how climate change has changed the physical space of Harlem and what will be required for Harlem to persist in spite of the climate crisis. We will be exploring topics of structural racism, gentrification, Afrofuturism and abolition. We will analyze what are the intersections of this work and how we can use visioning to develop a fluid model of power in this community.
+    </p>
+    <p>
+      Harlem is a space of rich history and deep cultural relevance. This tour was created as an offering of care for Harlemnites. In the realm of Afrofuturism, time is not linear, but cyclical. Think about what it means to have no beginning and no ending. There will be a total of XX stops on this tour. All of which are located in Harlem. With all that in mind, time to go through the many Pathways to Earthseed.
+    </p>
+    <p>
+
+    <h4>
+      STOP #1: North River Wastewater Treatment Plant (Hudson River Greenway, New York, NY 10031
+    <h4>
+    <p>
+      The first stop was the North River Wastewater Treatment Plant and Riverbank State Park. To continue to the next stop on the tour, locate Mother Clara Hale Bus Depot (721 Malcolm X Blvd, New York, NY 10039) on this Google map or this printable PDF map.
+    </p>
+
+    <h5>Transcript</h5>
+    <p>
+      The North River Wastewater Treatment Plant is located in Harlem smack dab in a park. If you walk, bike or cycle past this plant you will smell a pungent smell of rotting eggs. This is the noxious sulfur. Unsurprisingly, the plant was planned to be constructed along the Hudson near 72nd street in a predominantly white neighborhood. This community said no and the project was later moved to Harlem, a predominantly Black neighborhood.  WeACT was founded as a result of community organizing and struggle to highlight and mitigate the effects of environmental injustice and health disparities due to places like the North River Wastewater Treatment Plant.
+    </p>
+    <p>
+      Riverbank State Park is one of my favorite places in Harlem. I love it so much because it’s one of the places I feel closest to nature. Seeing people enjoying the outdoors, whether that is having a cookout on Juneteenth or running laps around the track, this is community. In the midst of all this beauty, nature enthusiasts are accosted with the emissions pumping into the air tainting any experience we hope to have. A park and a wastewater plant in the same place, what sense does that mean? How does it feel to be in this space? What do you see? What do you notice? Does this feel like an example of environmental racism? What activities do you or would you like to do here?
+    </p>
+
+    <h4>
+      STOP #2: Mother Clara Hale Bus Depot (721 Malcolm X Blvd, New York, NY 10039)
+    </h4>
+    <p>
+      The second stop was the Mother Hale Bus Depot. To continue to the next stop on the tour, locate Striver’s Row (W 138th and W 139th Street, New York, NY 10030) on this Google map or this printable PDF map.
+    </p>
+
+    <h5>Transcript</h5>
+    <p>
+      As you walk around Harlem on the famous 145th, right before crossing the bridge to the Bronx, you will find one of many bus depots in Harlem. They are loud, they are dirty, emitting pollutants into the air causing road pollution. Every day the residents of Harlem breathe this harmful air in, not only from the buses, but from both major highways located on either side of Harlem. In 2022, the Inflation Reduction Act was passed to deal with impacts of the climate crisis. However, there is a missed opportunity for investment in mass surface public transportation. If there were to be these direct investments, it would create an avenue to “accelerate electrification of public transit and improve transportation access specifically for underserved communities.” What do you see? What do you notice? What other examples of environmental injustice do you see in Harlem?
+    </p>
+
+    <h4>
+      STOP #3: Striver’s Row (W 138th and W 139th Street, New York, NY 10030)
+    </h4>
+    <p>
+      The third stop is Striver’s Row. To continue to the next stop on the tour, locate The Abyssinian Baptist Church (132 W 138th St, New York, NY 10030) on this Google map or this printable PDF map.
+    </p>
+
+    <h5>Transcript</h5>
+    <p>
+      The row of houses line the street between W 138th and W139th. This is a historical landmark. During the Harlem Renaissance, it was where a number of Black artists, intellectuals. I imagine people coming and going, creating and debating and building pieces of the “new Black identity” of the time. What songs, writings or art come to mind when being in this space? How is it distinct from other parts of Harlem?
+    </p>
+
+
+    <h4>
+      STOP #4 Abyssinian Baptist Church (132 W 138th St, New York, NY 10030)
+    </h4>
+    <p>
+      The fourth stop is Abyssinian Baptist Church. To continue to the next stop on the tour, locate Lafayette Theater (Corner of W 132nd and Malcolm X Blvd.) on this Google map or this printable PDF map.
+    </p>
+
+    <h5>Transcript</h5>
+    <p>
+      Although Abyssyian has been in existence since the early 1800s it has not always been located in Harlem. If you follow it’s journey in Manhattan to its current location, you will recognize it has slowly migrated north in step with the growth and movement of Black populations in Harlem. It was a fixture during the Harlem Renaissance and continues to be a space for Black culture, organizing and community. What does this church bring to the community?
+    </p>
+
+
+    <h4>
+      Lafayette Theater (Corner of W 132nd and Malcolm X Blvd.)
+    </h4>
+    <p>
+      The fifth stop is Lafayette Theater. To continue to the next stop on the tour, locate Apollo Theater (253 W 125th St, New York, NY 10027) on this Google map or this printable PDF map.
+    </p>
+
+    <h5>Transcript</h5>
+    <p>
+      Lafayette Theater was a space of Black performance and was one of the first theaters to desegregate in New York. It was a cultural bubble and a space that jump started many actors careers. It closed its doors in 1951 and was demolished in 2013. What has replaced the theater? What does it feel like to be in a space that once housed immense talent?
+    </p>
+
+    <h4>
+      Apollo Theater (253 W 125th St, New York, NY 10027)
+    </h4>
+    <p>
+      The sixth stop is Apollo Theater. To continue to the next stop on the tour, locate 125th and Consumerism (W 125th Street) on this Google map or this printable PDF map.
+    </p>
+    <h5>Transcript</h5>
+    <p>
+      This needs no introduction. The Apollo is world famous for not only being a site of rich Black culture, but also a space where so many people performed on stage and rubbed the “Good Luck Stump” for good luck. I attended Amateur Night in 2022 with my mama who was visiting for her birthday and I felt so poured into laughing and clapping celebrating all the talent. Close your eyes and stand outside of the Apollo, what do you feel?
+    </p>
+
+    <h4>
+      125th and Consumerism (W 125th Street)
+    </h4>
+    <p>
+      The seventh stop is 125th and Consumerism (W 125th Street). To continue to the next stop on the tour, locate Asthma Central (W 123rd between Adam Clayton Powell and Malcolm X Blvd.) on this Google map or this printable PDF map.
+    </p>
+    <h5>Transcript</h5>
+    <p>
+      Walk down 125th and look at all the buildings. What do you see? When I walk down, I see consumerism. I see what gentrification does to a community. I also see generations of people trying to survive with the increasing rent increases. How do you think gentrification has impacted you? How has it impacted your loved ones?
+    </p>
+
+    <h4>
+      Asthma Central (W 123rd between Adam Clayton Powell and Malcolm X Blvd.)
+    </h4>
+    <p>
+      The eighth stop is Asthma Central (W 123rd between Adam Clayton Powell and Malcolm X Blvd.). To continue to the next stop on the tour, locate East Harlem (W 116th and the surrounding areas) on this Google map or this printable PDF map.
+    </p>
+    <h5>Transcript</h5>
+    <p>
+      Central Harlem has the largest rate of asthma in adults. A study found that air pollution was correlated with asthma in children. Air pollution is usually the result of air pollutants due to environmental racism, industrialization etc. These are grave health impacts due to climate impacts. I often think about what these types of health impacts do to people. As an asthma sufferer myself, I carry my inhaler everywhere I go.  What other health impacts are Harlemites dealing with? What would climate justice look like in this area?
+    </p>
+
+    <h4>
+      East Harlem (W 116th and the surrounding areas)
+    </h4>
+    <p>
+      The ninth and last stop is East Harlem (W116th and the surrounding areas). This is the end of the walking tour, feel free to explore other parts of Harlem.
+    </p>
+    <h5>Transcript</h5>
+    <p>
+      At the end of our tour is East Harlem, also known as El Barrio. This neighborhood is also one of the hottest areas in Harlem. Heat in New York is not distributed equally, which is often based on income, race and access to certain types of housing. Increased heat in this neighborhood leads to a number of health complications, such as vulnerability to illnesses. The high heat index further increases death in the elderly and young. What can be done to reduce heat in this community?
+    </p>
+  </section>
+  <section>
+    <h2>An Afrofurist Harlem</h2>
+    <h3>UNDER CONSTRUCTION</h3>
+    <p>
+      For this section, things that still need to be done
+    </p>
+    <ul>
+      <li>I need to review all the survey responses and begin to analyze them</li>
+      <li>I need to record some of the responses </li>
+      <li>I need to pull out the key themes </li>
+    </ul>
+
+    <p>
+      Organizing is a transformational process through which participants gain the skills and expertise they need to build the power necessary to win the changes they seek. It is built on relationships, trust, leadership development and developing our political analysis. The only way to do this is by understanding the current time and conditions. <b>What is the current time Harlem is experiencing?</b>
+    </p>
+    <p>
+      Alondra Nelson says: “Afrofuturism is a critical perspective that opens up inquiry into the many overlaps between technoculture and black diasporic histories. Afrofuturism looks across popular culture…to find models of expression that transform spaces of alienation into novel forms of creative potential. In the process it reclaims theorizing about the future.”  Afrofuturism provides us with a framework to think outside of redlining, structural racism and environmental racism offers to us and the power of political imagination.  Afrofuturism is a cultural and organizing lens that is used to think about the types of the future. Specifically it aims for people to vision into a future where systems of oppression can be dismantled. For Harlem residents, it can be a powerful tool because it is unapologetic about situating Black people at the center of futures.
+    </p>
+    <p>
+      In parable of the Sower, the main protagonist Olamina and the rest of the world are dealing with climate disasters, political strife, war, censorship and amongst all of this a multiracial cross-class group is able to build power, trust, values and principles with one another through the teachings of Earthseed to create their own community that is completely outside and separate from the state.
+    </p>
+    <p>
+      (ASK): What are other examples of socio-political movements that push back against racialized capitalism, similar to Afrofuturism?
+    </p>
+    <p>
+      Harlem is a complex place with dynamic and complex individuals. It has been a space known to experience rich cultural growth and progress at the same time while balancing racist policies that have divested from the people. <b>What does the future hold for the community of Harlem and how do we ensure that future is thriving?</b>
+    </p>
+    <p>
+      Many current and past Harlem residents during the Fall of 2022 engaged in either a survey or interview process to talk about climate justice, abolition, Afrofuturism and visioning. All of these concepts are interconnected and the aim of this was to start a dialogue with people around what they are visioning for the future and to begin the process of doing an oral history project. This is to create a time capsule of the lessons and sankofas of 2022 and how we can use our collective lived experiences to create and organizing tradition towards our collective vision.
+    </p>
+    <p>
+      Let’s take a journey through our portal to minds and visions of those thinking about our futures
+    </p>
+
+
+    <h3>[Insert Oral History here]</h3>
+
+    <p>
+      For this section I am thinking about the following:
+    </p>
+    <ul>
+      <li>Maybe a map of Harlem and when you hover over different locations audio will pop up with some images of how I am interpreting the different futures people mentioned. </li>
+      <li>This map will slowly transform to show the borders of Harlem changing and spreading </li>
+    </ul>
+
+    <p>
+      <b>future are you trying to bring into fruition? Who is present in your future? What do you need to do now to facilitate this vision?</b>
+    </p>
+
+    <p>
+      If you are a Black person who currently lives in Harlem or used to, you are welcome to participate in the survey here. If you would like to be interviewed, please email me at nique.thom@gmail.com.
+    </p>
 
   </section>
 </body>
