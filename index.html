@@ -35,7 +35,7 @@
     body {
       margin-top: 40px;
     }
-    nav {
+    nav:first-child {
       position: fixed;
       background-color: rgb(127, 87, 159);
       padding: 10px;
@@ -43,16 +43,16 @@
       box-shadow: 0 0 10px;
       width: 100%;
     }
-    nav ol {
+    nav:first-child ol {
       width: 800px;
       margin: 0 auto;
     }
-    nav li {
+    nav:first-child li {
       display: inline;
       margin: 0;
       color: #fff;
     }
-    nav li a {
+    nav:first-child li a {
       background-color: transparent;
       padding: 10px 20px;
     }
@@ -93,6 +93,25 @@
       background-color: rgb(252, 241, 255);
       padding: 10px;
       margin: 0 auto 40px auto;
+    }
+    footer section {
+      background-color: transparent;
+      color: #000;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+    footer nav ol, footer p {
+      margin: 0px;
+    }
+    footer nav ol {
+      padding-left: 20px;
+    }
+    footer nav li {
+      font-size: .7em;
+    }
+    footer nav li a{
+      background-color: transparent;
+      color: #000;
     }
     .map {
       height: 220px;
@@ -558,9 +577,28 @@
       </p>
 
       <p>
-        If you are a Black person who currently lives in Harlem or used to, you are welcome to participate in the survey here. If you would like to be interviewed, please email me at nique.thom@gmail.com.
+        If you are a Black person who currently lives in Harlem or used to, you are welcome to participate in the survey here. If you would like to be interviewed, please email me at <a href="mailto:nique.thom@gmail.com">nique.thom@gmail.com</a>.
       </p>
     </section>
   </main>
+  <footer>
+    <section>
+      <p>
+        To Earth Seed,<br> <small>By Dominique Thomas</small>
+      </p>
+      <p>Other credits here</p>
+      <nav>
+        <p>Sections</p>
+        <ol>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#who">Who</a></li>
+          <li><a href="#sankofa">Sankofa</a></li>
+          <li><a href="#maps">Maps</a></li>
+          <li><a href="#walking-tour">Walking Tour</a></li>
+          <li><a href="#future">Future</a></li>
+        </ol>
+      </nav>
+    </section>
+  </footer>
 </body>
 </html>
