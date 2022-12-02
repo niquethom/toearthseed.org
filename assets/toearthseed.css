@@ -104,7 +104,19 @@
   .map {
     height: 220px;
   }
-  @media (max-width: 800px) {
+  cite {
+    display: block;
+    font-size: 1em;
+  }
+  blockquote {
+    border-left: 10px solid #f8806c;
+    padding: 0 0 0 10px;
+    font-size: 1.7em;
+    font-family: georgia, serif;
+    font-style: italic;
+    color: #f8806c;
+  }
+   @media (max-width: 800px) {
     header {
       background-position: -690px -170px;
     }
