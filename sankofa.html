@@ -67,7 +67,7 @@ title: Sankofa
 
     const tiles = 'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png';
     // more options for tile layers at https://leaflet-extras.github.io/leaflet-providers/preview/
-    const blackDiasporaMap = L.map('blackdiaspora').setView([0, 0], 1);
+    const blackDiasporaMap = L.map('blackdiaspora').setView([10, 10], 2);
 
     L.tileLayer(tiles).addTo(blackDiasporaMap);
 
@@ -100,10 +100,10 @@ title: Sankofa
     <b>San</b>=return
     <b>Ko</b>=go
     <b>Fa</b>=look, seek and take
+    <img class="quoteimg" src="assets/sankofaBird.png">
     <cite>
       Sankofa comes from the Akan people of Ghana and is a guiding post for us to understand our past so we can move through our present and future. It sees time as nonlinear and that our ancestors are with us presently to teach us lessons.
     </cite>
-    <img class="quoteimg" src="assets/sankofaBird.png">
   </blockquote>
 
 
@@ -130,11 +130,11 @@ title: Sankofa
   <div class="map" id="blackdiaspora"></div>
 
   <ol>
-    <li id="gineau">National Liberation and Culture of Gineau-Bissau</li>
-    <li id="southafrica">Black Consciousness movement in South Africa</li>
-    <li id="montreal">Black Power movement in Montreal</li>
-    <li id="australia">Australian Black Power</li>
-    <li id="haiti">Haitian Renaissance</li>
+    <li role="button" id="gineau">National Liberation and Culture of Gineau-Bissau</li>
+    <li role="button" id="southafrica">Black Consciousness movement in South Africa</li>
+    <li role="button" id="montreal">Black Power movement in Montreal</li>
+    <li role="button" id="australia">Australian Black Power</li>
+    <li role="button" id="haiti">Haitian Renaissance</li>
   </ol>
 
   <p>

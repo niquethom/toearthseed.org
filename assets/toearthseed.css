@@ -106,7 +106,7 @@
     background-color: transparent;
   }
   .map {
-    height: 270px;
+    height: 360px;
   }
   li[role=button] {
     cursor: pointer;
