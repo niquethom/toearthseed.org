@@ -4,23 +4,79 @@ title: Sankofa
 ---
 <script>
   document.addEventListener('DOMContentLoaded', () => {
+    const blackDiasporaGeoJson = {
+      "type": "FeatureCollection",
+      "features": [
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates":  [ 15.1804,11.8037 ]
+        },
+        "properties": {
+        "Location":"National Liberation and Culture of Gineau-Bissau "
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates":  [ 22.9375,30.5595 ]
+        },
+        "properties": {
+        "Location":"Black Consciousness movement"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates":  [ 73.5674,45.5019 ]
+        },
+        "properties": {
+        "Location":"Black Power movement in Montreal"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates":  [ 133.7751,25.2744 ]
+        },
+        "properties": {
+        "Location":"Australian Black Power "
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates":  [ 72.2852,18.9712 ]
+        },
+        "properties": {
+        "Location":"Haitian Renaissance "
+        }
+      }
+    ]
+    }
+
     const tiles = 'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png';
     // more options for tile layers at https://leaflet-extras.github.io/leaflet-providers/preview/
-    const blackSpacesMap = L.map('blackspaces').setView([0, 0], 1);
+    const blackDiasporaMap = L.map('blackdiaspora').setView([0, 0], 1);
     const harlemToday = L.map('harlemToday').setView([40.81, -73.95], 13);
     const harlem1940 = L.map('harlem1940').setView([40.81, -73.95], 13);
 
-    L.tileLayer(tiles).addTo(blackSpacesMap);
+    L.tileLayer(tiles).addTo(blackDiasporaMap);
     L.tileLayer(tiles).addTo(harlem1940);
     L.tileLayer(tiles).addTo(harlemToday);
 
-    L.geoJSON(walkingTourStopsGeoJSON, {
+    L.geoJSON(blackDiasporaGeoJson, {
       onEachFeature: (feature, layer) => {
         if (feature.properties && feature.properties.Location) {
           layer.bindPopup(feature.properties.Location);
         }
       }
-    }).addTo(walkingTour)
+    }).addTo(blackDiasporaMap)
   });
 </script>
 
@@ -67,7 +123,7 @@ title: Sankofa
     It was a movement that <a href="https://www.gsd.harvard.edu/2021/02/black-harlem-the-african-american-design-nexuss-harlem-storymap-traces-the-neighborhoods-black-designed-places/">highlighted the experiences of Black people such as women, immigrants and LGBTQIA+ people</a>. Although in Harlem, it was a national movement that had connections to international Black Diasporic cultural spaces and communities. Harlem has always been a point of connection and inspiration for those across the African Diaspora. It has been a link and chain to other Black spaces that were rich with Black life. Harlem has always been a point of connection and inspiration for those across the African Diaspora. It has been a link and chain to other Black spaces where people engaged in the development of a new Black identity and consciousness.
   </p>
 
-  <div class="map" id="blackspaces"></div>
+  <div class="map" id="blackdiaspora"></div>
 
   <ol>
     <li>National Liberation and Culture of Gineau-Bissau [INSERT XX IMAGE] </li>
