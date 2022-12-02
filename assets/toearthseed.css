@@ -67,6 +67,11 @@
     font-weight: normal;
     font-size: 60px;
   }
+  p img {
+    display: inline;
+    width: 25%;
+    float: right;
+  }
   section {
     width: 800px;
     background-color: rgb(252, 241, 255);
