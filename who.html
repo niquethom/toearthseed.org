@@ -20,122 +20,6 @@
 
   <link rel="stylesheet" href="/assets/toearthseed.css">
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const walkingTourStopsGeoJSON = {
-        "type": "FeatureCollection",
-        "features": [
-          {
-            "type": "Feature",
-            "geometry": {
-              "type": "Point",
-              "coordinates":  [ -73.9542061,40.8269691 ]
-            },
-            "properties": {
-            "Location":"North River Wastewater Treatment Plant (Hudson River Greenway, New York, NY 10031"
-            }
-          },
-          {
-            "type": "Feature",
-            "geometry": {
-              "type": "Point",
-              "coordinates":  [ -73.9375295,40.8225793 ]
-            },
-            "properties": {
-            "Location":"Mother Clara Hale Bus Depot (721 Malcolm X Blvd, New York, NY 10039)"
-            }
-          },
-          {
-            "type": "Feature",
-            "geometry": {
-              "type": "Point",
-              "coordinates":  [ -73.943749,40.817848 ]
-            },
-            "properties": {
-            "Location":"Striver’s Row (W 138th and W 139th Street, New York, NY 10030)"
-            }
-          },
-          {
-            "type": "Feature",
-            "geometry": {
-              "type": "Point",
-              "coordinates":  [ -73.9415561,40.8166821 ]
-            },
-            "properties": {
-            "Location":"Abyssinian Baptist Church (132 W 138th St, New York, NY 10030)"
-            }
-          },
-          {
-            "type": "Feature",
-            "geometry": {
-              "type": "Point",
-              "coordinates":  [ -73.942312,40.8122298 ]
-            },
-            "properties": {
-            "Location":"Lafayette Theater (Corner of W 132nd and Malcolm X Blvd.)"
-            }
-          },
-          {
-            "type": "Feature",
-            "geometry": {
-              "type": "Point",
-              "coordinates":  [ -73.950056,40.810018 ]
-            },
-            "properties": {
-            "Location":"Apollo Theater (253 W 125th St, New York, NY 10027)"
-            }
-          },
-          {
-            "type": "Feature",
-            "geometry": {
-              "type": "Point",
-              "coordinates":  [ -73.9530889,40.8109791 ]
-            },
-            "properties": {
-            "Location":"125th and Consumerism (W 125th Street)"
-            }
-          },
-          {
-            "type": "Feature",
-            "geometry": {
-              "type": "Point",
-              "coordinates":  [ -73.9442166,40.8096347 ]
-            },
-            "properties": {
-            "Location":"Asthma Central (W 123rd between Adam Clayton Powell and Malcolm X Blvd.)"
-            }
-          },
-          {
-            "type": "Feature",
-            "geometry": {
-              "type": "Point",
-              "coordinates":  [ -73.956822,40.8050482 ]
-            },
-            "properties": {
-            "Location":"East Harlem (W 116th and the surrounding areas)"
-            }
-          }
-        ]
-      }
-      const tiles = 'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png';
-      // more options for tile layers at https://leaflet-extras.github.io/leaflet-providers/preview/
-      const blackSpacesMap = L.map('blackspaces').setView([0, 0], 1);
-      const harlemToday = L.map('harlemToday').setView([40.81, -73.95], 13);
-      const harlem1940 = L.map('harlem1940').setView([40.81, -73.95], 13);
-      const walkingTour = L.map('walkingTour').setView([40.819, -73.95], 13);
-
-      L.tileLayer(tiles).addTo(blackSpacesMap);
-      L.tileLayer(tiles).addTo(harlem1940);
-      L.tileLayer(tiles).addTo(harlemToday);
-      L.tileLayer(tiles).addTo(walkingTour);
-
-      L.geoJSON(walkingTourStopsGeoJSON, {
-        onEachFeature: (feature, layer) => {
-          if (feature.properties && feature.properties.Location) {
-            layer.bindPopup(feature.properties.Location);
-          }
-        }
-      }).addTo(walkingTour)
-    });
   </script>
 </head>
 <body>
@@ -155,7 +39,11 @@
   <main>
 
     <h2 id="who" class="even">Who’s that girl?</h2>
+
     <section class="even">
+
+      <img src="assets/Dominique Stick.jpg" width="400" height="500">
+    
       <p>
         Hi, I am Dominique and I am the steward of this portal. I am an Afrofuturist organizer, busy-body trainer, scientist and artist. I view climate justice as integral to liberation. I would say my biggest joy is centered in Black liberation to create the material conditions for communities to build power with one another through principled practice and strategize to dismantle systems of oppression. <a href="mailto:nique.thom@gmail.com">Hit me up!</a>
       </p>
