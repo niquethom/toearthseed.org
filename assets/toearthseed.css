@@ -106,7 +106,8 @@
   }
   cite {
     display: block;
-    font-size: 1em;
+    font-size: .7em;
+    margin: 10px 0 0 0;
   }
   blockquote {
     margin: 4em;
