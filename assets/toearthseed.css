@@ -109,6 +109,7 @@
     font-size: 1em;
   }
   blockquote {
+    margin: 4em;
     border-left: 10px solid #f8806c;
     padding: 0 0 0 10px;
     font-size: 1.7em;
