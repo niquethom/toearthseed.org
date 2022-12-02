@@ -46,7 +46,7 @@
     background-color: rgb(37, 2, 67);
 
   }
-  .leaflet-control-attribution a, .leaflet-control-attribution a:hover {
+  .leaflet-container a, .leaflet-control-attribution a, .leaflet-control-attribution a:hover {
     color: #000;
     background-color: inherit;
   }
@@ -106,7 +106,7 @@
     background-color: transparent;
   }
   .map {
-    height: 220px;
+    height: 270px;
   }
   cite {
     display: block;
@@ -128,7 +128,7 @@
     font-style: italic;
     color: #f8806c;
   }
-   @media (max-width: 800px) {
+  @media (max-width: 800px) {
     header {
       background-position: -690px -170px;
     }
@@ -138,5 +138,8 @@
     h1, section {
       width: auto;
       margin: 0px 10px 40px 10px;
+    }
+    blockquote {
+      font-size: 1em;
     }
   }
