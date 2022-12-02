@@ -77,7 +77,7 @@ title: Sankofa
       onEachFeature: (feature, layer) => {
         if (feature.properties && feature.properties.Location) {
           document.getElementById(feature.properties.id).addEventListener('click', () => {
-            layer.popup();
+            layer.openPopup();
           });
           layer.bindPopup(feature.properties.Location);
         }
