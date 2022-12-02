@@ -14,7 +14,8 @@ title: Sankofa
           "coordinates":  [ -15.1804,11.8037 ]
         },
         "properties": {
-        "Location":"National Liberation and Culture of Gineau-Bissau "
+          "id": "gineau",
+          "Location":"National Liberation and Culture of Gineau-Bissau <a href='https://roarmag.org/essays/amilcar-cabral-cultural-front'>National Liberation and Culture of Gineau-Bissau</a>"
         }
       },
       {
@@ -24,7 +25,8 @@ title: Sankofa
           "coordinates":  [ 22.9375,-30.5595 ]
         },
         "properties": {
-        "Location":"Black Consciousness movement"
+          "id": "southafrica",
+          "Location":"Black Consciousness movement <a href='https://www.youtube.com/watch?v=K5tMA3bkXmA'>Black Consciousness movement</a>"
         }
       },
       {
@@ -34,7 +36,8 @@ title: Sankofa
           "coordinates":  [ -73.5674,45.5019 ]
         },
         "properties": {
-        "Location":"Black Power movement in Montreal"
+          "id": "montreal",
+          "Location":"Black Power movement in Montreal <a href='https://socialistproject.ca/2019/01/fifty-years-ago-birth-of-black-power-in-canada'>Black Power movement in Montreal</a>"
         }
       },
       {
@@ -44,7 +47,8 @@ title: Sankofa
           "coordinates":  [ 133.7751,-25.2744 ]
         },
         "properties": {
-        "Location":"Australian Black Power "
+          "id": "australia",
+          "Location":"Australian Black Power <a href='https://www.journals.uchicago.edu/doi/abs/10.5323/jafriamerhist.100.2.0226?journalCode=jaah'>Australian Black Power</a>"
         }
       },
       {
@@ -54,7 +58,8 @@ title: Sankofa
           "coordinates":  [ -72.2852,18.9712 ]
         },
         "properties": {
-        "Location":"Haitian Renaissance "
+          "id": "haiti",
+          "Location":"Haitian Renaissance <a href='https://nmaahc.si.edu/explore/stories/harlem-haiti'>Haitian Renaissance</a>"
         }
       }
     ]
@@ -73,6 +78,9 @@ title: Sankofa
     L.geoJSON(blackDiasporaGeoJson, {
       onEachFeature: (feature, layer) => {
         if (feature.properties && feature.properties.Location) {
+          document.getElementById(feature.properties.id).addEventListener('click', () => {
+            layer.popup();
+          });
           layer.bindPopup(feature.properties.Location);
         }
       }
@@ -126,11 +134,11 @@ title: Sankofa
   <div class="map" id="blackdiaspora"></div>
 
   <ol>
-    <li>National Liberation and Culture of Gineau-Bissau [INSERT XX IMAGE] </li>
-    <li>Black Consciousness movement [INSERT XX]</li>
-    <li>Black Power movement in Montreal [INSERT XX]</li>
-    <li>Australian Black Power [INSERT XX IMAGE]</li>
-    <li>Haitian Renaissance [INSERT XX IMAGE]</li>
+    <li id="gineau">National Liberation and Culture of Gineau-Bissau</li>
+    <li id="southafrica">Black Consciousness movement in South Africa</li>
+    <li id="montreal">Black Power movement in Montreal</li>
+    <li id="australia">Australian Black Power</li>
+    <li id="haiti">Haitian Renaissance</li>
   </ol>
 
   <p>
