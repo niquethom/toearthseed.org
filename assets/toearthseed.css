@@ -80,6 +80,7 @@
   }
   section img {
     text-align: center;
+    width: 100%;
   }
   footer section {
     background-color: transparent;
