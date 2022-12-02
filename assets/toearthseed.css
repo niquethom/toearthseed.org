@@ -114,10 +114,9 @@
     margin: 10px 0 0 0;
   }
   .right {
+    width: 200px;
+    padding: 55px 0 0 30px;
     float: right;
-  }
-  .full {
-    width: auto;
   }
   blockquote {
     margin: 2.5em;
