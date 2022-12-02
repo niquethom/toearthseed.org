@@ -113,6 +113,12 @@
     font-size: .7em;
     margin: 10px 0 0 0;
   }
+  .right {
+    float: right;
+  }
+  .full {
+    width: auto;
+  }
   blockquote {
     margin: 2.5em;
     border-left: 10px solid #f8806c;
