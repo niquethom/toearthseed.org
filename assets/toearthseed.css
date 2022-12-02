@@ -86,11 +86,12 @@
     padding-left: 20px;
   }
   footer nav li {
-    font-size: .7em;
   }
   footer nav li a{
-    background-color: transparent;
     color: #000;
+  }
+  footer nav li a:hover{
+    background-color: transparent;
   }
   .map {
     height: 220px;
