@@ -86,6 +86,7 @@
   }
   footer nav ol, footer p {
     margin: 0px;
+    padding: 0 5px 0 0;
   }
   footer nav ol {
     padding-left: 20px;
@@ -95,6 +96,7 @@
   }
   footer nav li a{
     color: #000;
+    background-color: transparent;
   }
   footer nav li a:hover{
     background-color: transparent;
