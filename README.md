@@ -8,4 +8,4 @@ in the terminal
 * make changes
 * `git add .`
 * `git commit -m "describe what you did here"`
-* `git push origin main`
+* `git push origin main` 
