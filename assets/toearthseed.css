@@ -90,6 +90,9 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
   }
+  footer section figure {
+    padding: 0px;
+  }
   footer nav ol, footer p {
     margin: 0px;
     padding: 0 5px 0 0;
