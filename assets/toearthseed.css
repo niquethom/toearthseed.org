@@ -133,11 +133,18 @@
     color: #f8806c;
   }
   @media (max-width: 800px) {
+    body {
+      margin-top: 0px;
+    }
     header {
       background-position: -690px -170px;
     }
-    nav ol  {
+    nav ol, nav:first-child ol  {
       width: auto;
+      position: relative;
+    }
+    nav nav:first-child ol li {
+      display: block;
     }
     h1, section {
       width: auto;
