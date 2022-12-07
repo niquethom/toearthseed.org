@@ -91,7 +91,7 @@
     grid-template-columns: repeat(3, 1fr);
   }
   footer section figure {
-    padding: 0px;
+    margin: 0px;
   }
   footer nav ol, footer p {
     margin: 0px;
