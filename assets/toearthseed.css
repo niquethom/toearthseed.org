@@ -139,6 +139,9 @@
     header {
       background-position: -690px -170px;
     }
+    nav:first-child {
+      position: relative;
+    }
     nav ol, nav:first-child ol  {
       width: auto;
       position: relative;
