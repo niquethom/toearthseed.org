@@ -159,6 +159,10 @@
       display: block;
       font-size: 1.3em;
     }
+    h1, h2, {
+      width: auto;
+      margin: 10px;
+    }
     h1, section {
       width: auto;
       margin: 0px 10px 40px 10px;
