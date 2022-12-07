@@ -148,9 +148,16 @@
     nav ol, nav:first-child ol  {
       width: auto;
       position: relative;
+      padding: 0px;
     }
     nav ol li, nav:first-child ol li {
       display: block;
+    }
+    nav ol li a {
+      padding: 6px;
+      text-align: center;
+      display: block;
+      font-size: 1.3em;
     }
     h1, section {
       width: auto;
