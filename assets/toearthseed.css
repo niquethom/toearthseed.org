@@ -72,6 +72,7 @@
     height: 330px;
     display: inline;
     padding: 10px;
+    width: auto;
   }
   section {
     width: 800px;
