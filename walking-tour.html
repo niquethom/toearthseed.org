@@ -317,7 +317,6 @@ title: Walking Tour
 
     const walkingTour = L.map('walkingTour').setView([40.819, -73.95], 13);
 
-
     L.tileLayer(tiles).addTo(walkingTour);
 
     L.geoJSON(walkingTourStopsGeoJSON, {
@@ -337,25 +336,23 @@ title: Walking Tour
         const id = e.target.hash.split('#')[1];
         const stepSection = document.getElementById(id)
 
-        console.log(stepSection)
-        stepSection.className = '';
-        oldStepSection.className = 'hidden';
-        oldStepSection = stepSection;
+        if (oldStepSection.id !== stepSection.id) {
+          stepSection.className = '';
+          oldStepSection.className = 'hidden';
+          oldStepSection = stepSection;
 
-        const audioElement = document.querySelectorAll('audio.' + id)[0];
-        setupPlayer(audioElement);
+          const audioElement = document.querySelectorAll('audio.' + id)[0];
+          setupPlayer(audioElement);
+
+        }
       })
     });
 
     // Player controls and attributes
-    const playButton = document.querySelector(".player-play-btn");
-    const playIcon = playButton.querySelector(".player-icon-play");
-    const pauseIcon = playButton.querySelector(".player-icon-pause");
     const progress = document.querySelector(".player-progress");
     const progressFilled = document.querySelector(".player-progress-filled");
     const playerCurrentTime = document.querySelector(".player-time-current");
     const playerDuration = document.querySelector(".player-time-duration");
-    const volumeControl = document.querySelector(".player-volume")
     const currentStep  = document.querySelector(".current-step")
 
     let oldAudioElement = null;
@@ -382,33 +379,8 @@ title: Walking Tour
         setTimes();
       });
 
-      // Play button toggle
-      playButton.addEventListener("click", () => {
-        // check if context is in suspended state (autoplay policy)
-        // By default browsers won't allow you to autoplay audio.
-        // You can overide by finding the AudioContext state and resuming it after a user interaction like a "click" event.
-        if (audioCtx.state === "suspended") {
-          audioCtx.resume();
-        }
-
-        // Play or pause track depending on state
-        if (playButton.dataset.playing === "false") {
-          audioElement.play();
-
-          playButton.dataset.playing = "true";
-          playIcon.classList.add("hidden");
-          pauseIcon.classList.remove("hidden");
-        } else if (playButton.dataset.playing === "true") {
-          audioElement.pause();
-          playButton.dataset.playing = "false";
-          pauseIcon.classList.add("hidden");
-          playIcon.classList.remove("hidden");
-        }
-      });
-
       // if the track ends reset the player
       audioElement.addEventListener("ended", () => {
-        playButton.dataset.playing = "false";
         pauseIcon.classList.add("hidden");
         playIcon.classList.remove("hidden");
         progressFilled.style.flexBasis = "0%";
@@ -416,14 +388,7 @@ title: Walking Tour
         audioElement.duration = audioElement.duration;
       });
 
-      // Bridge the gap between gainNode and AudioContext so we can manipulate volume (gain)
-      const gainNode = audioCtx.createGain();
-
-      volumeControl.addEventListener("change", () => {
-        gainNode.gain.value = volumeControl.value;
-      });
-
-      track.connect(gainNode).connect(audioCtx.destination);
+      track.connect(audioCtx.destination);
 
       // Display currentTime and duration properties in real time
       function setTimes() {
@@ -466,14 +431,6 @@ title: Walking Tour
     <p><span class="current-step">Introduction</span></p>
   </span>
   <span class="player-controls">
-    <button class="player-play-btn" role="button" aria-label="Play" data-playing="false">
-      <span class="player-icon-play">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><title>play</title><polygon class="icon-play" points="19.05 12 6 3.36 6 20.64 19.05 12"/><rect class="icon-container" width="24" height="24"/></svg>
-      </span>
-      <span class="player-icon-pause hidden">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><title>pause</title><g><rect  class="icon-pause" x="6" y="3.26" width="4" height="17.48"/><rect class="icon-pause" x="14" y="3.26" width="4" height="17.48"/></g><rect class="icon-container" width="24" height="24"/></svg>
-      </span>
-    </button>
     <span class="player-timeline">
       <span class="player-time player-time-current">00:00</span>
       <div class="player-progress">
@@ -498,7 +455,6 @@ title: Walking Tour
 
   <nav class="walking-tour">
   <ol>
-    <li><a class="step" href="#How-to-listen">How to listen</a></li>
     <li><a class="step" href="#Introduction">Introduction </a></li>
     <li><a class="step" href="#Wastewater-Treatment-Plant">1. Wastewater Treatment Plant</a></li>
     <li><a class="step" href="#Mother-Clara-Hale-Bus-Depot">2. Mother Clara Hale Bus Depot</a></li>
@@ -653,7 +609,7 @@ title: Walking Tour
   </p>
 </section>
 
-<section class="hidden" id="East-Harlem">
+<section class="hidden" id="Ending">
   <h4>
     The End
   </h4>
