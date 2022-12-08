@@ -1,4 +1,4 @@
-@font-face {
+  @font-face {
     font-family: 'Entanglement';
     src: url('/assets/Entanglement-rgpRB.ttf');
   }
@@ -16,6 +16,7 @@
   }
   nav:first-child {
     position: fixed;
+    z-index: 2000;
     background-color: rgb(127, 87, 159);
     padding: 10px;
     top: 0px;
@@ -181,6 +182,9 @@
     }
     footer nav ol {
       padding: 0;
+    }
+    footer section figure, footer section nav {
+      margin-bottom: 30px;
     }
     h1, h2 {
       width: auto;

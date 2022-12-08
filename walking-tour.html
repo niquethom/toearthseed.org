@@ -2,7 +2,220 @@
 layout: default
 title: Walking Tour
 ---
+<style>
+  .walking-tour li{
+    display: inline;
+    padding-right: 4px;
+    border-right: 1px solid #000;
+  }
+  .walking-tour li:last-child {
+    border-right: none;
+  }
+
+  .walking-tour li a {
+    white-space: pre;
+    padding: 3px;
+    background-color: transparent;
+    color: #0e0e0e;
+  }
+  footer {
+    margin-bottom: 500px;
+  }
+
+  @media (max-width: 800px) {
+    .walking-tour li {
+      border-right: none;
+    }
+    .walking-tour li a {
+      font-size: .7em;
+      display: inline;
+      padding: 0px;
+    }
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .player {
+    z-index: 2000;
+    position: fixed;
+    bottom: 0px;
+    margin: 0px;
+    width: 96%;
+    background: white;
+    padding: 0 2%;
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  }
+
+  .player-controls {
+    display: flex;
+    align-items: center;
+  }
+
+  .player-play-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 36px;
+    height: 36px;
+  }
+
+  .icon-container {
+    fill: transparent;
+    stroke: none;
+  }
+
+  .player-play-btn:hover {
+    fill: #444444;
+  }
+
+  .player-play-btn svg {
+    color: #0e0e0e;
+    position: relative;
+    left: 0.5px;
+    width: 36px;
+    height: 36px;
+    display: block;
+  }
+
+  .player-play-btn:hover svg {
+    color: #ffffff;
+  }
+
+  .player-timeline {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 10px;
+  }
+
+  .player-progress {
+    display: flex;
+    postion: relative;
+    height: 6px;
+    background: #a3a3a3;
+    border-radius: 25px;
+    margin: 0 5px;
+    flex: 10;
+    flex-basis: 100%;
+    overflow: hidden;
+  }
+
+  .player-progress-filled {
+    height: 6px;
+    background: #0e0e0e;
+    flex: 0;
+    flex-basis: 0%;
+    border-radius: 25px;
+  }
+
+  .player-time {
+    padding: 2px 5px;
+  }
+
+  .player-volume-container {
+    width: 15%;
+  }
+  .player-volume {
+    height: 28px;
+    -webkit-appearance: none;
+    margin: 10px 0;
+    width: 100%;
+    background: transparent;
+  }
+
+  .player-volume:focus {
+    outline: none;
+  }
+
+  .player-volume::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 6px;
+    cursor: pointer;
+    animate: 0.2s;
+    background: #0e0e0e;
+    border-radius: 10px;
+  }
+
+  .player-volume::-webkit-slider-thumb {
+    height: 16px;
+    width: 16px;
+    border-radius: 100px;
+    border: none;
+    background: #0e0e0e;
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -4px;
+  }
+
+  .player-volume:focus::-webkit-slider-runnable-track {
+    background: #0e0e0e;
+  }
+
+  .player-volume::-moz-range-track {
+    width: 100%;
+    height: 6px;
+    cursor: pointer;
+    animate: 0.2s;
+    background: #0e0e0e;
+    border-radius: 10px;
+  }
+
+  .player-volume::-moz-range-thumb {
+    height: 16px;
+    width: 16px;
+    border-radius: 100px;
+    border: none;
+    background: #0e0e0e;
+    cursor: pointer;
+    margin-top: -4px;
+  }
+
+  .player-volume::-ms-track {
+    width: 100%;
+    height: 6px;
+    cursor: pointer;
+    animate: 0.2s;
+    background: #0e0e0e;
+    border-radius: 10px;
+  }
+
+  .player-volume::-ms-fill-lower {
+    background: #0e0e0e;
+    border-radius: 10px;
+  }
+
+  .player-volume::-ms-fill-upper {
+    background: #0e0e0e;
+    border-radius: 10px;
+  }
+
+  .player-volume::-ms-thumb {
+    margin-top: 1px;
+    height: 15px;
+    width: 15px;
+    border-radius: 5px;
+    border: none;
+    background: #0e0e0e;
+    cursor: pointer;
+  }
+
+  .player-volume:focus::-ms-fill-lower {
+    background: #38bdf8;
+  }
+
+  .player-volume:focus::-ms-fill-upper {
+    background: #38bdf8;
+  }
+
+</style>
 <script>
+
   document.addEventListener('DOMContentLoaded', () => {
     const walkingTourStopsGeoJSON = {
       "type": "FeatureCollection",
@@ -114,13 +327,196 @@ title: Walking Tour
         }
       }
     }).addTo(walkingTour)
+
+    let oldStepSection = document.getElementById('How-to-listen');
+
+    document.querySelectorAll('.step').forEach(step => {
+      step.addEventListener('click', e => {
+        e.preventDefault();
+
+        const id = e.target.hash.split('#')[1];
+        const stepSection = document.getElementById(id)
+
+        console.log(stepSection)
+        stepSection.className = '';
+        oldStepSection.className = 'hidden';
+        oldStepSection = stepSection;
+
+        const audioElement = document.querySelectorAll('audio.' + id)[0];
+        setupPlayer(audioElement);
+      })
+    });
+
+    // Player controls and attributes
+    const playButton = document.querySelector(".player-play-btn");
+    const playIcon = playButton.querySelector(".player-icon-play");
+    const pauseIcon = playButton.querySelector(".player-icon-pause");
+    const progress = document.querySelector(".player-progress");
+    const progressFilled = document.querySelector(".player-progress-filled");
+    const playerCurrentTime = document.querySelector(".player-time-current");
+    const playerDuration = document.querySelector(".player-time-duration");
+    const volumeControl = document.querySelector(".player-volume")
+    const currentStep  = document.querySelector(".current-step")
+
+    let oldAudioElement = null;
+    let oldAudioCtx = null;
+
+    const setupPlayer = (audioElement) => {
+      if (oldAudioElement){
+        oldAudioElement.pause();
+        delete audioCtx;
+      }
+      oldAudioElement = audioElement;
+
+      currentStep.innerHTML = audioElement.className.split('-').join(' ')
+
+      const audioCtx = new AudioContext();
+      let track = audioCtx.createMediaElementSource(audioElement);
+
+      // Set times after page load
+      setTimes();
+
+      // Update progress bar and time values as audio plays
+      audioElement.addEventListener("timeupdate", () => {
+        progressUpdate();
+        setTimes();
+      });
+
+      // Play button toggle
+      playButton.addEventListener("click", () => {
+        // check if context is in suspended state (autoplay policy)
+        // By default browsers won't allow you to autoplay audio.
+        // You can overide by finding the AudioContext state and resuming it after a user interaction like a "click" event.
+        if (audioCtx.state === "suspended") {
+          audioCtx.resume();
+        }
+
+        // Play or pause track depending on state
+        if (playButton.dataset.playing === "false") {
+          audioElement.play();
+
+          playButton.dataset.playing = "true";
+          playIcon.classList.add("hidden");
+          pauseIcon.classList.remove("hidden");
+        } else if (playButton.dataset.playing === "true") {
+          audioElement.pause();
+          playButton.dataset.playing = "false";
+          pauseIcon.classList.add("hidden");
+          playIcon.classList.remove("hidden");
+        }
+      });
+
+      // if the track ends reset the player
+      audioElement.addEventListener("ended", () => {
+        playButton.dataset.playing = "false";
+        pauseIcon.classList.add("hidden");
+        playIcon.classList.remove("hidden");
+        progressFilled.style.flexBasis = "0%";
+        audioElement.currentTime = 0;
+        audioElement.duration = audioElement.duration;
+      });
+
+      // Bridge the gap between gainNode and AudioContext so we can manipulate volume (gain)
+      const gainNode = audioCtx.createGain();
+
+      volumeControl.addEventListener("change", () => {
+        gainNode.gain.value = volumeControl.value;
+      });
+
+      track.connect(gainNode).connect(audioCtx.destination);
+
+      // Display currentTime and duration properties in real time
+      function setTimes() {
+        playerCurrentTime.textContent = new Date(audioElement.currentTime * 1000)
+          .toISOString()
+          .substr(11, 8);
+        playerDuration.textContent = new Date(audioElement.duration * 1000)
+          .toISOString()
+          .substr(11, 8);
+      }
+
+      // Update player timeline progress visually
+      function progressUpdate() {
+        const percent = (audioElement.currentTime / audioElement.duration) * 100;
+        progressFilled.style.flexBasis = `${percent}%`;
+      }
+
+      // Scrub player timeline to skip forward and back on click for easier UX
+      let mousedown = false;
+
+      function scrub(event) {
+        const scrubTime = (event.offsetX / progress.offsetWidth) * audioElement.duration;
+        audioElement.currentTime = scrubTime;
+      }
+
+      progress.addEventListener("click", scrub);
+      progress.addEventListener("mousemove", (e) => mousedown && scrub(e));
+      progress.addEventListener("mousedown", () => (mousedown = true));
+      progress.addEventListener("mouseup", () => (mousedown = false));
+
+      audioElement.play();
+    };
+
   });
 </script>
 <h2 id="walking-tour">Walking Tour</h2>
-<section>
-  <div class="map" id="walkingTour"></div>
+<figure class="player">
+  <span class="player-track-meta">
+    <h4>Walking tour audio player</h4>
+    <p><span class="current-step">Introduction</span></p>
+  </span>
+  <span class="player-controls">
+    <button class="player-play-btn" role="button" aria-label="Play" data-playing="false">
+      <span class="player-icon-play">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><title>play</title><polygon class="icon-play" points="19.05 12 6 3.36 6 20.64 19.05 12"/><rect class="icon-container" width="24" height="24"/></svg>
+      </span>
+      <span class="player-icon-pause hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><title>pause</title><g><rect  class="icon-pause" x="6" y="3.26" width="4" height="17.48"/><rect class="icon-pause" x="14" y="3.26" width="4" height="17.48"/></g><rect class="icon-container" width="24" height="24"/></svg>
+      </span>
+    </button>
+    <span class="player-timeline">
+      <span class="player-time player-time-current">00:00</span>
+      <div class="player-progress">
+        <div class="player-progress-filled"></div>
+      </div>
+      <span class="player-time player-time-duration">00:00</span>
+    </span>
+    <span class="player-volume-container">
+      <input type="range" id="volume" min="0" max="1" value="1" step="0.01" class="player-volume" />
+    </span>
+  </span>
+  <audio class="Introduction" src="assets/Walking Tour Audio/Introduction.mp3" crossorigin="anonymous" ></audio>
+  <audio class="Wastewater-Treatment-Plant" src="assets/Walking Tour Audio/Wastewater-Treatment-Plant.mp3" crossorigin="anonymous" ></audio>
+  <audio class="Mother-Clara-Hale-Bus-Depot" src="assets/Walking Tour Audio/Mother-Clara-Hale-Bus-Depot.mp3" crossorigin="anonymous" ></audio>
+  <audio class="Strivers-Row" src="assets/Walking Tour Audio/Strivers-Row.mp3" crossorigin="anonymous" ></audio>
+  <audio class="Abyssinian-Baptist-Church" src="assets/Walking Tour Audio/Abyssinian-Baptist-Church.mp3" crossorigin="anonymous" ></audio>
+  <audio class="Lafayette-Theater" src="assets/Walking Tour Audio/Lafayette-Theater.mp3" crossorigin="anonymous" ></audio>
+  <audio class="Apollo-Theater" src="assets/Walking Tour Audio/Apollo-Theater.mp3" crossorigin="anonymous" ></audio>
+  <audio class="Asthma-Central" src="assets/Walking Tour Audio/Asthma-Central.mp3" crossorigin="anonymous" ></audio>
+  <audio class="East-Harlem" src="assets/Walking Tour Audio/East-Harlem.mp3" crossorigin="anonymous" ></audio>
+  <audio class="Ending" src="assets/Walking Tour Audio/Ending.mp3" crossorigin="anonymous" ></audio>
 
-  <h3>How to listen</h3>
+  <nav class="walking-tour">
+  <ol>
+    <li><a class="step" href="#How-to-listen">How to listen</a></li>
+    <li><a class="step" href="#Introduction">Introduction </a></li>
+    <li><a class="step" href="#Wastewater-Treatment-Plant">1. Wastewater Treatment Plant</a></li>
+    <li><a class="step" href="#Mother-Clara-Hale-Bus-Depot">2. Mother Clara Hale Bus Depot</a></li>
+    <li><a class="step" href="#Strivers-Row">3. Striver’s Row</a></li>
+    <li><a class="step" href="#Abyssinian-Baptist-Church">4. Abyssinian Baptist Church</a></li>
+    <li><a class="step" href="#Lafayette-Theater">5. Lafayette Theater</a></li>
+    <li><a class="step" href="#Apollo-Theater">6. Apollo Theater</a></li>
+    <li><a class="step" href="#Asthma-Central">7. Asthma Central</a></li>
+    <li><a class="step" href="#East-Harlem">8. East Harlem</a></li>
+    <li><a class="step" href="#Ending">Ending</a></li>
+  </ol>
+</nav>
+</figure>
+
+<section  id="How-to-listen">
+  <div class="map" id="walkingTour"></div>
+  <h3>Pathways to Earthseed Walking Tour</h3>
+  <h4>How to listen</h4>
 
   <p>Thank you for joining me for this audio walking tour exploring Harlem through the lens of climate justice, Afrofuturism, Black feminist ecological thought and abolition. </p>
   <p>To begin the tour, click on the first thumbnail photo in the image gallery below that is labeled “Pathways to Earthseed”. </p>
@@ -131,10 +527,10 @@ title: Walking Tour
     <li>A link to the Google Map is here or you can download this PDF for a printable map of the tour. </li>
   </ol>
 
-  <h3>Pathways to Earthseed Walking Tour</h3>
-  <h4>1) Introduction </h4>
-  <audio controls src="assets/Walking Tour Audio/Pathways to Earthseed- Introduction.mp3"></audio>
+</section>
 
+<section class="hidden" id="Introduction" class="hidden">
+  <h4>1) Introduction </h4>
   <h5>Guidance</h5>
   <p>
     Welcome to the Pathways to Earthseed audio walking tour. Join Dominique as she takes you on a journey through the complexities of Harlem. When you wish to continue to the next stop, locate North River Wastewater treatment plant on the google map and/or on the printable PDF.
@@ -152,13 +548,12 @@ title: Walking Tour
     Harlem is a space of rich history and deep cultural relevance. This tour was created as an offering of care for Harlemnites. In the realm of Afrofuturism, time is not linear, but cyclical. Think about what it means to have no beginning and no ending. There will be a total of XX stops on this tour. All of which are located in Harlem. With all that in mind, time to go through the many Pathways to Earthseed.
   </p>
   <p>
+</section>
 
+<section class="hidden" id="Wastewater-Treatment-Plant">
   <h4>
     STOP #1: North River Wastewater Treatment Plant (Hudson River Greenway, New York, NY 10031
   <h4>
-  <audio controls src="assets/Walking Tour Audio/Pathways to Earthseed-Stop #1.mp3"></audio>
-
-
   <h5>Transcript</h5>
   <p>
     The North River Wastewater Treatment Plant is located in Harlem smack dab in a park. If you walk, bike or cycle past this plant you will smell a pungent smell of rotting eggs. This is the noxious sulfur. Unsurprisingly, the plant was planned to be constructed along the Hudson near 72nd street in a predominantly white neighborhood. This community said no and the project was later moved to Harlem, a predominantly Black neighborhood.  WeACT was founded as a result of community organizing and struggle to highlight and mitigate the effects of environmental injustice and health disparities due to places like the North River Wastewater Treatment Plant.
@@ -167,60 +562,60 @@ title: Walking Tour
     Riverbank State Park is one of my favorite places in Harlem. I love it so much because it’s one of the places I feel closest to nature. Seeing people enjoying the outdoors, whether that is having a cookout on Juneteenth or running laps around the track, this is community. In the midst of all this beauty, nature enthusiasts are accosted with the emissions pumping into the air tainting any experience we hope to have. A park and a wastewater plant in the same place, what sense does that mean? How does it feel to be in this space? What do you see? What do you notice? Does this feel like an example of environmental racism? What activities do you or would you like to do here?
   </p>
   The first stop was the North River Wastewater Treatment Plant and Riverbank State Park. To continue to the next stop on the tour, locate Mother Clara Hale Bus Depot (721 Malcolm X Blvd, New York, NY 10039) on this Google map or this printable PDF map.
+</section>
 
-
+<section class="hidden" id="Mother-Clara-Hale-Bus-Depot">
   <h4>
     STOP #2: Mother Clara Hale Bus Depot (721 Malcolm X Blvd, New York, NY 10039)
   </h4>
-  <audio controls src="assets/Walking Tour Audio/Pathways to Earthseed- Stop #2.mp3"></audio>
-
   <h5>Transcript</h5>
   <p>
     As you walk around Harlem on the famous 145th, right before crossing the bridge to the Bronx, you will find one of many bus depots in Harlem. They are loud, they are dirty, emitting pollutants into the air causing road pollution. Every day the residents of Harlem breathe this harmful air in, not only from the buses, but from both major highways located on either side of Harlem. In 2022, the Inflation Reduction Act was passed to deal with impacts of the climate crisis. However, there is a missed opportunity for investment in mass surface public transportation. If there were to be these direct investments, it would create an avenue to “accelerate electrification of public transit and improve transportation access specifically for underserved communities.” What do you see? What do you notice? What other examples of environmental injustice do you see in Harlem?
   </p>
     The second stop was the Mother Hale Bus Depot. To continue to the next stop on the tour, locate Striver’s Row (W 138th and W 139th Street, New York, NY 10030) on this Google map or this printable PDF map.
   </p>
+</section>
 
+<section class="hidden" id="Strivers-Row">
   <h4>
     STOP #3: Striver’s Row (W 138th and W 139th Street, New York, NY 10030)
   </h4>
-  <audio controls src="assets/Walking Tour Audio/Pathways to Earthseed-Stop#3 .mp3"></audio>
-
   <h5>Transcript</h5>
   <p>
     The row of houses line the street between W 138th and W139th. This is a historical landmark. During the Harlem Renaissance, it was where a number of Black artists, intellectuals. I imagine people coming and going, creating and debating and building pieces of the “new Black identity” of the time. What songs, writings or art come to mind when being in this space? How is it distinct from other parts of Harlem?
   </p>
     The third stop is Striver’s Row. To continue to the next stop on the tour, locate The Abyssinian Baptist Church (132 W 138th St, New York, NY 10030) on this Google map or this printable PDF map.
   </p>
+</section>
 
+<section class="hidden" id="Abyssinian-Baptist-Church">
   <h4>
     STOP #4 Abyssinian Baptist Church (132 W 138th St, New York, NY 10030)
   </h4>
-  <audio controls src="assets/Walking Tour Audio/Pathways to Earthseed- Stop #4.mp3"></audio>
-
   <h5>Transcript</h5>
   <p>
     Although Abyssyian has been in existence since the early 1800s it has not always been located in Harlem. If you follow it’s journey in Manhattan to its current location, you will recognize it has slowly migrated north in step with the growth and movement of Black populations in Harlem. It was a fixture during the Harlem Renaissance and continues to be a space for Black culture, organizing and community. What does this church bring to the community?
   </p>
     The fourth stop is Abyssinian Baptist Church. To continue to the next stop on the tour, locate Lafayette Theater (Corner of W 132nd and Malcolm X Blvd.) on this Google map or this printable PDF map.
   </p>
+</section>
 
+<section class="hidden" id="Lafayette-Theater">
   <h4>
     STOP #5: Lafayette Theater (Corner of W 132nd and Malcolm X Blvd.)
   </h4>
-  <audio controls src="assets/Walking Tour Audio/Pathways to Earthseed- Stop #5.mp3"></audio>
-
   <h5>Transcript</h5>
   <p>
     Lafayette Theater was a space of Black performance and was one of the first theaters to desegregate in New York. It was a cultural bubble and a space that jump started many actors careers. It closed its doors in 1951 and was demolished in 2013. What has replaced the theater? What does it feel like to be in a space that once housed immense talent?
   </p>
     The fifth stop is Lafayette Theater. To continue to the next stop on the tour, locate Apollo Theater (253 W 125th St, New York, NY 10027) on this Google map or this printable PDF map.
   </p>
+</section>
 
+<section class="hidden" id="Apollo-Theater">
   <h4>
     STOP #6: Apollo Theater (253 W 125th St, New York, NY 10027)
   </h4>
-  <audio controls src="assets/Walking Tour Audio/Pathways to Earthseed- Stop #6.mp3"></audio>
   <p>
     The sixth stop is Apollo Theater. To continue to the next stop on the tour, locate 125th and Consumerism (W 125th Street) on this Google map or this printable PDF map.
   </p>
@@ -230,12 +625,12 @@ title: Walking Tour
   </p>
     The sixth stop is Apollo Theater. To continue to the next stop on the tour, locate 125th and Consumerism (W 125th Street) on this Google map or this printable PDF map.
   </p>
+</section>
 
+<section class="hidden" id="Asthma-Central">
   <h4>
     STOP #7: Asthma Central (W 123rd between Adam Clayton Powell and Malcolm X Blvd.)
   </h4>
-  <audio controls src="assets/Walking Tour Audio/Patrhways to Earthseed- Stop #7.mp3"></audio>
-
   <h5>Transcript</h5>
   <p>
     Central Harlem has the largest rate of asthma in adults. A study found that air pollution was correlated with asthma in children. Air pollution is usually the result of air pollutants due to environmental racism, industrialization etc. These are grave health impacts due to climate impacts. I often think about what these types of health impacts do to people. As an asthma sufferer myself, I carry my inhaler everywhere I go.  What other health impacts are Harlemites dealing with? What would climate justice look like in this area?
@@ -243,12 +638,12 @@ title: Walking Tour
   <p>
     The eighth stop is Asthma Central (W 123rd between Adam Clayton Powell and Malcolm X Blvd.). To continue to the next stop on the tour, locate East Harlem (W 116th and the surrounding areas) on this Google map or this printable PDF map.
   </p>
+</section>
 
+<section class="hidden" id="East-Harlem">
   <h4>
     STOP #8: East Harlem (E 116th and the surrounding areas)
   </h4>
-  <audio controls src="assets/Walking Tour Audio/Pathways to Earthseed-Stop #8.mp3"></audio>
-
   <h5>Transcript</h5>
   <p>
     At the end of our tour is East Harlem, also known as El Barrio. This neighborhood is also one of the hottest areas in Harlem. Heat in New York is not distributed equally, which is often based on income, race and access to certain types of housing. Increased heat in this neighborhood leads to a number of health complications, such as vulnerability to illnesses. The high heat index further increases death in the elderly and young. What can be done to reduce heat in this community?
@@ -256,9 +651,11 @@ title: Walking Tour
   <p>
     The ninth and last stop is East Harlem (W116th and the surrounding areas). This is the end of the walking tour, feel free to explore other parts of Harlem.
   </p>
+</section>
 
+<section class="hidden" id="East-Harlem">
+  <h4>
+    The End
+  </h4>
   <p>Add ending paragraph dominique</p>
-
-  <audio controls src="assets/Walking Tour Audio/Pathways to Earthseed- Ending.mp3"></audio>
-
 </section>
