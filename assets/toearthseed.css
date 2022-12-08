@@ -67,6 +67,19 @@
     font-weight: normal;
     font-size: 60px;
   }
+  footer h3 {
+    font-size: 1em;
+    margin: 0;
+  }
+  figure {
+    margin: 2em;
+  }
+  figure h5 {
+    margin: 0px;
+  }
+  figure p {
+    font-size: .7em;
+  }
   .bio {
     text-align: center;
     height: 330px;
@@ -84,11 +97,15 @@
     text-align: center;
     width: 100%;
   }
+  footer p {
+    font-size: .7em;
+  }
   footer section {
     background-color: transparent;
     color: #000;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    grid-column-gap: 4em;
   }
   footer section figure {
     margin: 0px;
@@ -159,6 +176,12 @@
       display: block;
       font-size: 1.3em;
     }
+    footer nav ol li a {
+      text-align: left;
+    }
+    footer nav ol {
+      padding: 0;
+    }
     h1, h2 {
       width: auto;
       margin: 10px;
@@ -176,5 +199,9 @@
     footer section {
       display: block;
       margin-bottom: 10px;
+    }
+    .bio {
+      height: auto;
+      width: 95%;
     }
   }
