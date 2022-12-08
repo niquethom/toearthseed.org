@@ -3,6 +3,12 @@ layout: default
 title: Walking Tour
 ---
 <style>
+  h4 {
+    margin: 0px;
+  }
+  .walking-tour ol {
+    margin: 0px;
+  }
   .walking-tour li{
     display: inline;
     padding-right: 4px;
@@ -11,13 +17,12 @@ title: Walking Tour
   .walking-tour li:last-child {
     border-right: none;
   }
-
   .walking-tour li a {
     white-space: pre;
     padding: 3px;
     background-color: transparent;
-    color: #0e0e0e;
-  }
+    color: rgb(80, 36, 144);
+    }
   footer {
     margin-bottom: 500px;
   }
@@ -44,7 +49,7 @@ title: Walking Tour
     margin: 0px;
     width: 96%;
     background: white;
-    padding: 0 2%;
+    padding: 2%;
     box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   }
 
@@ -350,13 +355,39 @@ title: Walking Tour
 
     // Player controls and attributes
     const progress = document.querySelector(".player-progress");
+    const playButton = document.querySelector(".player-play-btn");
+    const playIcon = playButton.querySelector(".player-icon-play");
+    const pauseIcon = playButton.querySelector(".player-icon-pause");
     const progressFilled = document.querySelector(".player-progress-filled");
     const playerCurrentTime = document.querySelector(".player-time-current");
     const playerDuration = document.querySelector(".player-time-duration");
     const currentStep  = document.querySelector(".current-step")
 
-    let oldAudioElement = null;
-    let oldAudioCtx = null;
+    let oldAudioElement = document.querySelector('audio.Introduction');
+
+    // Play button toggle
+    playButton.addEventListener("click", () => {
+      // check if context is in suspended state (autoplay policy)
+      // By default browsers won't allow you to autoplay audio.
+      // You can overide by finding the AudioContext state and resuming it after a user interaction like a "click" event.
+      // if (audioCtx.state === "suspended") {
+      //   audioCtx.resume();
+      // }
+
+      // Play or pause track depending on state
+      if (playButton.dataset.playing === "false") {
+        oldAudioElement.play();
+
+        playButton.dataset.playing = "true";
+        playIcon.classList.add("hidden");
+        pauseIcon.classList.remove("hidden");
+      } else if (playButton.dataset.playing === "true") {
+        oldAudioElement.pause();
+        playButton.dataset.playing = "false";
+        pauseIcon.classList.add("hidden");
+        playIcon.classList.remove("hidden");
+      }
+    });
 
     const setupPlayer = (audioElement) => {
       if (oldAudioElement){
@@ -364,6 +395,11 @@ title: Walking Tour
         delete audioCtx;
       }
       oldAudioElement = audioElement;
+
+      playButton.dataset.playing = "true";
+      playIcon.classList.add("hidden");
+      pauseIcon.classList.remove("hidden");
+
 
       currentStep.innerHTML = audioElement.className.split('-').join(' ')
 
@@ -426,20 +462,22 @@ title: Walking Tour
 </script>
 <h2 id="walking-tour">Walking Tour</h2>
 <figure class="player">
-  <span class="player-track-meta">
-    <h4>Walking tour audio player</h4>
-    <p><span class="current-step">Introduction</span></p>
-  </span>
+  <h4><span class="current-step">Welcome</span></h4>
   <span class="player-controls">
+    <button class="player-play-btn" role="button" aria-label="Play" data-playing="false">
+      <span class="player-icon-play hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><title>play</title><polygon class="icon-play" points="19.05 12 6 3.36 6 20.64 19.05 12"/><rect class="icon-container" width="24" height="24"/></svg>
+      </span>
+      <span class="player-icon-pause hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><title>pause</title><g><rect  class="icon-pause" x="6" y="3.26" width="4" height="17.48"/><rect class="icon-pause" x="14" y="3.26" width="4" height="17.48"/></g><rect class="icon-container" width="24" height="24"/></svg>
+      </span>
+    </button>
     <span class="player-timeline">
       <span class="player-time player-time-current">00:00</span>
       <div class="player-progress">
         <div class="player-progress-filled"></div>
       </div>
       <span class="player-time player-time-duration">00:00</span>
-    </span>
-    <span class="player-volume-container">
-      <input type="range" id="volume" min="0" max="1" value="1" step="0.01" class="player-volume" />
     </span>
   </span>
   <audio class="Introduction" src="assets/Walking Tour Audio/Introduction.mp3" crossorigin="anonymous" ></audio>
