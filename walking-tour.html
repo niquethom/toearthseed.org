@@ -38,7 +38,7 @@ title: Walking Tour
     }
   }
 
-  .hidden {
+  .hidden, button.hidden {
     display: none;
   }
 
@@ -377,7 +377,6 @@ title: Walking Tour
       // Play or pause track depending on state
       if (playButton.dataset.playing === "false") {
         oldAudioElement.play();
-
         playButton.dataset.playing = "true";
         playIcon.classList.add("hidden");
         pauseIcon.classList.remove("hidden");
@@ -399,6 +398,7 @@ title: Walking Tour
       playButton.dataset.playing = "true";
       playIcon.classList.add("hidden");
       pauseIcon.classList.remove("hidden");
+      playButton.classList.remove("hidden");
 
 
       currentStep.innerHTML = audioElement.className.split('-').join(' ')
@@ -464,7 +464,7 @@ title: Walking Tour
 <figure class="player">
   <h4><span class="current-step">Welcome</span></h4>
   <span class="player-controls">
-    <button class="player-play-btn" role="button" aria-label="Play" data-playing="false">
+    <button class="player-play-btn hidden" role="button" aria-label="Play" data-playing="false">
       <span class="player-icon-play hidden">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><title>play</title><polygon class="icon-play" points="19.05 12 6 3.36 6 20.64 19.05 12"/><rect class="icon-container" width="24" height="24"/></svg>
       </span>
