@@ -48,8 +48,9 @@
 
   }
   .leaflet-container a, .leaflet-control-attribution a, .leaflet-control-attribution a:hover {
-    color: #000;
-    background-color: inherit;
+    color: rgb(252, 250, 255);
+    background-color: rgb(80, 38, 115);
+    padding: 5px;
   }
   header {
     height: 40vh;

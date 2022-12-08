@@ -22,9 +22,9 @@ title: Walking Tour
     padding: 3px;
     background-color: transparent;
     color: rgb(80, 36, 144);
-    }
+  }
   footer {
-    margin-bottom: 500px;
+    height: 400px;
   }
 
   @media (max-width: 800px) {
@@ -35,6 +35,9 @@ title: Walking Tour
       font-size: .7em;
       display: inline;
       padding: 0px;
+    }
+    footer {
+      height: 800px;
     }
   }
 
@@ -220,7 +223,6 @@ title: Walking Tour
 
 </style>
 <script>
-
   document.addEventListener('DOMContentLoaded', () => {
     const walkingTourStopsGeoJSON = {
       "type": "FeatureCollection",
@@ -232,7 +234,8 @@ title: Walking Tour
             "coordinates":  [ -73.9542061,40.8269691 ]
           },
           "properties": {
-          "Location":"North River Wastewater Treatment Plant (Hudson River Greenway, New York, NY 10031"
+            "Location":"1. North River Wastewater Treatment Plant (Hudson River Greenway, New York, NY 10031",
+            "href": "#Wastewater-Treatment-Plant"
           }
         },
         {
@@ -242,7 +245,8 @@ title: Walking Tour
             "coordinates":  [ -73.9375295,40.8225793 ]
           },
           "properties": {
-          "Location":"Mother Clara Hale Bus Depot (721 Malcolm X Blvd, New York, NY 10039)"
+            "Location":"2. Mother Clara Hale Bus Depot (721 Malcolm X Blvd, New York, NY 10039)",
+            "href": "#Mother-Clara-Hale-Bus-Depot"
           }
         },
         {
@@ -252,7 +256,8 @@ title: Walking Tour
             "coordinates":  [ -73.943749,40.817848 ]
           },
           "properties": {
-          "Location":"Striver’s Row (W 138th and W 139th Street, New York, NY 10030)"
+            "Location":"3. Striver’s Row (W 138th and W 139th Street, New York, NY 10030)",
+            "href": "#Strivers-Row"
           }
         },
         {
@@ -262,7 +267,8 @@ title: Walking Tour
             "coordinates":  [ -73.9415561,40.8166821 ]
           },
           "properties": {
-          "Location":"Abyssinian Baptist Church (132 W 138th St, New York, NY 10030)"
+            "Location":"4. Abyssinian Baptist Church (132 W 138th St, New York, NY 10030)",
+            "href": "#Abyssinian-Baptist-Church"
           }
         },
         {
@@ -272,7 +278,8 @@ title: Walking Tour
             "coordinates":  [ -73.942312,40.8122298 ]
           },
           "properties": {
-          "Location":"Lafayette Theater (Corner of W 132nd and Malcolm X Blvd.)"
+            "Location":"5. Lafayette Theater (Corner of W 132nd and Malcolm X Blvd.)",
+            "href": "#Lafayette-Theater"
           }
         },
         {
@@ -282,17 +289,8 @@ title: Walking Tour
             "coordinates":  [ -73.950056,40.810018 ]
           },
           "properties": {
-          "Location":"Apollo Theater (253 W 125th St, New York, NY 10027)"
-          }
-        },
-        {
-          "type": "Feature",
-          "geometry": {
-            "type": "Point",
-            "coordinates":  [ -73.9530889,40.8109791 ]
-          },
-          "properties": {
-          "Location":"125th and Consumerism (W 125th Street)"
+            "Location":"6. Apollo Theater (253 W 125th St, New York, NY 10027)",
+            "href": "#Apollo-Theater"
           }
         },
         {
@@ -302,7 +300,8 @@ title: Walking Tour
             "coordinates":  [ -73.9442166,40.8096347 ]
           },
           "properties": {
-          "Location":"Asthma Central (W 123rd between Adam Clayton Powell and Malcolm X Blvd.)"
+            "Location":"7. Asthma Central (W 123rd between Adam Clayton Powell and Malcolm X Blvd.)",
+            "href": "#Asthma-Central"
           }
         },
         {
@@ -312,7 +311,8 @@ title: Walking Tour
             "coordinates":  [ -73.956822,40.8050482 ]
           },
           "properties": {
-          "Location":"East Harlem (W 116th and the surrounding areas)"
+            "Location":"8.East Harlem (W 116th and the surrounding areas)",
+            "href": "#East-Harlem"
           }
         }
       ]
@@ -327,30 +327,42 @@ title: Walking Tour
     L.geoJSON(walkingTourStopsGeoJSON, {
       onEachFeature: (feature, layer) => {
         if (feature.properties && feature.properties.Location) {
-          layer.bindPopup(feature.properties.Location);
+
+          const link = document.createElement('a');
+          const location = document.createElement('p');
+          const popup = document.createElement('span');
+          link.href = feature.properties.href;
+          link.innerHTML = ' Visit stop →';
+          link.addEventListener('click', stepHandler);
+          location.innerHTML = feature.properties.Location;
+          popup.appendChild(location);
+          popup.appendChild(link);
+
+          layer.bindPopup(popup);
         }
       }
     }).addTo(walkingTour)
 
     let oldStepSection = document.getElementById('How-to-listen');
 
+    function stepHandler(e) {
+      e.preventDefault();
+
+      const id = e.target.hash.split('#')[1];
+      const stepSection = document.getElementById(id)
+
+      if (oldStepSection.id !== stepSection.id) {
+        stepSection.className = '';
+        oldStepSection.className = 'hidden';
+        oldStepSection = stepSection;
+
+        const audioElement = document.querySelectorAll('audio.' + id)[0];
+        setupPlayer(audioElement);
+
+      }
+    }
     document.querySelectorAll('.step').forEach(step => {
-      step.addEventListener('click', e => {
-        e.preventDefault();
-
-        const id = e.target.hash.split('#')[1];
-        const stepSection = document.getElementById(id)
-
-        if (oldStepSection.id !== stepSection.id) {
-          stepSection.className = '';
-          oldStepSection.className = 'hidden';
-          oldStepSection = stepSection;
-
-          const audioElement = document.querySelectorAll('audio.' + id)[0];
-          setupPlayer(audioElement);
-
-        }
-      })
+      step.addEventListener('click', stepHandler)
     });
 
     // Player controls and attributes
@@ -457,7 +469,6 @@ title: Walking Tour
 
       audioElement.play();
     };
-
   });
 </script>
 <h2 id="walking-tour">Walking Tour</h2>
@@ -474,9 +485,9 @@ title: Walking Tour
     </button>
     <span class="player-timeline">
       <span class="player-time player-time-current">00:00</span>
-      <div class="player-progress">
-        <div class="player-progress-filled"></div>
-      </div>
+      <span class="player-progress">
+        <span class="player-progress-filled"></span>
+      </span>
       <span class="player-time player-time-duration">00:00</span>
     </span>
   </span>
