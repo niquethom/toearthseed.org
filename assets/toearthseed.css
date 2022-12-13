@@ -14,6 +14,9 @@
   body {
     margin-top: 40px;
   }
+  #burger {
+    display: none;
+  }
   nav:first-child {
     position: fixed;
     z-index: 2000;
@@ -162,17 +165,40 @@
       margin-top: 0px;
     }
     header {
-      background-position: -690px -170px;
+      background-position: 373px -150px;
+      background-size: 785px;
+      height: 20vh;
     }
-    nav:first-child {
-      position: relative;
+    #burger {
+      display: block;
+      cursor: pointer;
+      position: fixed;
+      z-index: 2100;
+      top: 10px;
+      left: 10px;
     }
-    nav ol, nav:first-child ol  {
+    #mainnav {
+      position: fixed;
+      padding: 0;
+      left: 0px;
+      top: 0px;
+      transition: .3s all;
+      width: 70vw;
+      height: 100vh;
+      background-color: rgb(80, 38, 115);
+      z-index: 2000;
+      box-shadow: 3px 2px 40px rgb(51, 3, 77);
+    }
+    #mainnav.closed {
+      left: -76vw;
+
+    }
+    nav ol, nav ol  {
       width: auto;
       position: relative;
       padding: 0px;
     }
-    nav ol li, nav:first-child ol li {
+    nav ol li, nav ol li {
       display: block;
     }
     nav ol li a {
@@ -190,12 +216,12 @@
     footer section figure, footer section nav {
       margin-bottom: 30px;
     }
-    h1, h2 {
+    h1, h2, h3 {
       width: auto;
-      margin: 10px;
+      margin: 0 10px 10px 10px;
     }
     h2 {
-      font-size: 50px;
+      font-size: 40px;
     }
     h1, section {
       width: auto;
@@ -211,5 +237,9 @@
     .bio {
       height: auto;
       width: 95%;
+    }
+    .map {
+      height: 200px;
+      margin-bottom: 10px;
     }
   }
