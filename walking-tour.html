@@ -361,8 +361,9 @@ title: Walking Tour
 
       }
     }
+
     document.querySelectorAll('.step').forEach(step => {
-      step.addEventListener('click', stepHandler)
+      step.addEventListener('mousedown', stepHandler)
     });
 
     // Player controls and attributes
@@ -378,7 +379,7 @@ title: Walking Tour
     let oldAudioElement = document.querySelector('audio.Introduction');
 
     // Play button toggle
-    playButton.addEventListener("click", () => {
+    playButton.addEventListener("mousedown", () => {
       // check if context is in suspended state (autoplay policy)
       // By default browsers won't allow you to autoplay audio.
       // You can overide by finding the AudioContext state and resuming it after a user interaction like a "click" event.
@@ -411,7 +412,6 @@ title: Walking Tour
       playIcon.classList.add("hidden");
       pauseIcon.classList.remove("hidden");
       playButton.classList.remove("hidden");
-
 
       currentStep.innerHTML = audioElement.className.split('-').join(' ')
 
