@@ -8,9 +8,10 @@ title: Walking Tour
   }
   .walking-tour ol {
     margin: 0px;
+    display: grid;
+    grid-template-columns: repeat(3, 3fr);
   }
   .walking-tour li{
-    display: inline;
     padding-right: 4px;
     margin: 0px;
     border-right: 1px solid #000;
@@ -344,10 +345,17 @@ title: Walking Tour
       }
     }).addTo(walkingTour)
 
+
+    document.querySelectorAll('.step').forEach(step => {
+      step.addEventListener('mousedown', stepHandler)
+    });
+
     let oldStepSection = document.getElementById('How-to-listen');
 
     function stepHandler(e) {
       e.preventDefault();
+
+      e.target.classList.add('visited');
 
       const id = e.target.hash.split('#')[1];
       const stepSection = document.getElementById(id)
@@ -362,11 +370,6 @@ title: Walking Tour
 
       }
     }
-
-    document.querySelectorAll('.step').forEach(step => {
-      step.addEventListener('mousedown', stepHandler)
-    });
-
     // Player controls and attributes
     const progress = document.querySelector(".player-progress");
     const playButton = document.querySelector(".player-play-btn");
@@ -375,9 +378,8 @@ title: Walking Tour
     const progressFilled = document.querySelector(".player-progress-filled");
     const playerCurrentTime = document.querySelector(".player-time-current");
     const playerDuration = document.querySelector(".player-time-duration");
-    const currentStep  = document.querySelector(".current-step")
-
-    let oldAudioElement = document.querySelector('audio.Introduction');
+    let oldAudioElement = null;
+    let audioCtx = null;
 
     // Play button toggle
     playButton.addEventListener("mousedown", () => {
@@ -403,20 +405,18 @@ title: Walking Tour
     });
 
     const setupPlayer = (audioElement) => {
-      if (oldAudioElement){
+      if (oldAudioElement) {
         oldAudioElement.pause();
-        delete audioCtx;
       }
       oldAudioElement = audioElement;
-
+      if (!audioCtx) {
+        audioCtx = new AudioContext();
+      }
       playButton.dataset.playing = "true";
       playIcon.classList.add("hidden");
       pauseIcon.classList.remove("hidden");
       playButton.classList.remove("hidden");
 
-      currentStep.innerHTML = audioElement.className.split('-').join(' ')
-
-      const audioCtx = new AudioContext();
       let track = audioCtx.createMediaElementSource(audioElement);
 
       // Set times after page load
@@ -474,7 +474,6 @@ title: Walking Tour
 </script>
 <h2 id="walking-tour">Walking Tour</h2>
 <figure class="player">
-  <h4><span class="current-step">Welcome</span></h4>
   <span class="player-controls">
     <button class="player-play-btn hidden" role="button" aria-label="Play" data-playing="false">
       <span class="player-icon-play hidden">
@@ -506,10 +505,10 @@ title: Walking Tour
   <nav class="walking-tour">
   <ol>
     <li><a class="step" href="#Introduction">Introduction </a></li>
-    <li><a class="step" href="#Wastewater-Treatment-Plant">1. Wastewater Treatment Plant</a></li>
-    <li><a class="step" href="#Mother-Clara-Hale-Bus-Depot">2. Mother Clara Hale Bus Depot</a></li>
+    <li><a class="step" href="#Wastewater-Treatment-Plant">1. Wastewater Plant</a></li>
+    <li><a class="step" href="#Mother-Clara-Hale-Bus-Depot">2. Hale Bus Depot</a></li>
     <li><a class="step" href="#Strivers-Row">3. Striver’s Row</a></li>
-    <li><a class="step" href="#Abyssinian-Baptist-Church">4. Abyssinian Baptist Church</a></li>
+    <li><a class="step" href="#Abyssinian-Baptist-Church">4. Abyssinian Church</a></li>
     <li><a class="step" href="#Lafayette-Theater">5. Lafayette Theater</a></li>
     <li><a class="step" href="#Apollo-Theater">6. Apollo Theater</a></li>
     <li><a class="step" href="#Asthma-Central">7. Asthma Central</a></li>

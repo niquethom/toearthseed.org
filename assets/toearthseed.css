@@ -160,6 +160,9 @@
     font-style: italic;
     color: #f8806c;
   }
+  .visited {
+    font-weight: bold;
+  }
   @media (max-width: 800px) {
     body {
       margin-top: 0px;
@@ -174,8 +177,8 @@
       cursor: pointer;
       position: fixed;
       z-index: 2100;
-      top: 10px;
-      left: 10px;
+      top: 5px;
+      left: 5px;
     }
     #mainnav {
       position: fixed;
