@@ -196,15 +196,15 @@
       left: -76vw;
 
     }
-    nav ol, nav ol  {
+    #mainnav ol, #mainnav ol  {
       width: auto;
       position: relative;
       padding: 0px;
     }
-    nav ol li, nav ol li {
+    #mainnav ol li, #mainnav ol li {
       display: block;
     }
-    nav ol li a {
+    #mainnav ol li a {
       padding: 6px;
       text-align: center;
       display: block;
@@ -215,6 +215,7 @@
     }
     footer nav ol {
       padding: 0;
+      margin-left: 20px;
     }
     footer section figure, footer section nav {
       margin-bottom: 30px;
