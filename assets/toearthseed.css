@@ -17,7 +17,7 @@
   #burger {
     display: none;
   }
-  nav:first-child {
+  #mainnav {
     position: fixed;
     z-index: 2000;
     background-color: rgb(127, 87, 159);
@@ -26,16 +26,16 @@
     box-shadow: 0 0 10px;
     width: 100%;
   }
-  nav:first-child ol {
+  #mainnav ol {
     width: 800px;
     margin: 0 auto;
   }
-  nav:first-child li {
+  #mainnav li {
     display: inline;
     margin: 0;
     color: #fff;
   }
-  nav:first-child li a {
+  #mainnav li a {
     background-color: transparent;
     padding: 10px 20px;
   }
