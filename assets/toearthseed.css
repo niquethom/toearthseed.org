@@ -220,9 +220,9 @@
     footer section figure, footer section nav {
       margin-bottom: 30px;
     }
-    h1, h2, h3 {
+    h1, h2 {
       width: auto;
-      margin: 0 10px 10px 10px;
+      margin: 10px;
     }
     h2 {
       font-size: 40px;

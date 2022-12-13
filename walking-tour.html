@@ -7,14 +7,15 @@ title: Walking Tour
     margin: 0px;
   }
   .walking-tour ol {
+    list-style: none;
     margin: 0px;
     display: grid;
+    padding-left: 0px;
     grid-template-columns: repeat(3, 3fr);
   }
   .walking-tour li{
     padding-right: 4px;
     margin: 0px;
-    border-right: 1px solid #000;
   }
   .walking-tour li:last-child {
     border-right: none;
@@ -30,11 +31,13 @@ title: Walking Tour
   }
 
   @media (max-width: 800px) {
+    .walking-tour ol {
+      font-size: .7em;
+    }
     .walking-tour li {
       border-right: none;
     }
     .walking-tour li a {
-      font-size: .7em;
       display: inline;
       padding: 0px;
     }
