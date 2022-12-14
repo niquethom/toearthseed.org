@@ -50,7 +50,7 @@
     background-color: rgb(37, 2, 67);
 
   }
-  .leaflet-popup .leaflet-container a, .leaflet-popup .leaflet-control-attribution a:hover {
+  .leaflet-popup-content a, .leaflet-popup .leaflet-control-attribution a:hover {
     color: rgb(252, 250, 255);
     background-color: rgb(80, 38, 115);
     padding: 5px;
